@@ -1,0 +1,32 @@
+{
+  "name": "trydionel.timer",
+  "description": "Timer",
+  "version": "0.0.0",
+  "author": "trydionel",
+  "repository": {
+    "type": "git",
+    "url": "TODO: Add the GitHub URL to your extension in package.json"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.8.0"
+  },
+  "ahaExtension": {
+    "contributes": {
+      "views": {
+        "timer": {
+          "title": "Timer",
+          "entryPoint": "src/views/timer.js",
+          "host": "attribute",
+          "recordTypes": [
+            "Feature",
+            "Requirement"
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.1"
+  }
+}
