@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { logWork } from './actions'
+import { bus } from './bus'
 
 export const TimerContext = React.createContext({
   timers: [],
@@ -13,7 +14,7 @@ export const TimerContext = React.createContext({
 // 
 // Alternatively, how can I subscribe to updates to user extension data?
 
-export const TimerProvider = ({ children }) => {
+export const TimerProvider = ({ children, poll = false }) => {
   const [timers, setTimers] = useState([])
 
   const loadTimers = async () => {
@@ -29,14 +30,15 @@ export const TimerProvider = ({ children }) => {
 
   const startTimer = async (record) => {
     await aha.user.setExtensionField('trydionel.timer', `timer:${record.id}`, +new Date())
-    await loadTimers()
+    bus.dispatch("timer:update")
   }
   const stopTimer = async (record) => {
     const timer = timers.filter(t => t.recordId === record.id)[0]
 
     await aha.user.clearExtensionField('trydionel.timer', `timer:${record.id}`)
-    await loadTimers()
     await logWork(record, timer.startedAt)
+
+    bus.dispatch("timer:update")
   }
 
   const value = {
@@ -48,8 +50,16 @@ export const TimerProvider = ({ children }) => {
   useEffect(() => {
     loadTimers();
 
-    const pid = setInterval(loadTimers, 60 * 1000);
-    () => { clearInterval(pid) }
+    if (poll) {
+      const pid = setInterval(loadTimers, 60 * 1000);
+      return () => { clearInterval(pid) }
+    }
+
+  }, [poll])
+
+  useEffect(() => {
+    bus.on("timer:update", loadTimers)
+    return () => bus.off("timer:update", loadTimers)
   }, [])
 
   return (

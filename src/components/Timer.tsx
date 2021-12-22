@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { css, jsx } from '@emotion/react'
 import { ElapsedTime } from "./ElapsedTime";
+import { useTimerContext } from "../data/context";
 
 export const Timer = ({ record, startTime }) => {
   const [data, setData] = useState<Aha.Feature>(null)
+  const { stopTimer } = useTimerContext()
 
   const loadRecord = async () => {
     const data = await aha.models.Feature.select('id', 'name', 'referenceNum').find(record)

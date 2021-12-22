@@ -16,7 +16,7 @@ if (container) {
 }
 console.log('[Timer] Mounting component')
 ReactDOM.render(
-  <TimerProvider>
+  <TimerProvider poll>
     <TimerContainer />
   </TimerProvider>,
   container)
