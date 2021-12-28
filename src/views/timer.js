@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { TimerContainer } from "../components/TimerContainer";
 import { TimerField } from "../components/TimerField";
-import { TimerProvider } from "../data/context";
+import { loadTimers } from "../data/actions";
+import { state } from "../data/state";
 
 let container = document.querySelector('#timer')
 if (container) {
@@ -15,16 +16,13 @@ if (container) {
   document.body.appendChild(container)
 }
 console.log('[Timer] Mounting component')
-ReactDOM.render(
-  <TimerProvider poll>
-    <TimerContainer />
-  </TimerProvider>,
-  container)
+ReactDOM.render(<TimerContainer state={state} />, container)
 
 aha.on("timer", ({ record, fields, onUnmounted }, { identifier, settings }) => {
   return (
-    <TimerProvider>
-      <TimerField record={record} />
-    </TimerProvider>
+    <TimerField state={state} record={record} />
   )
 });
+
+loadTimers()
+setInterval(loadTimers, 60 * 1000) // refresh timers regularly to support people using multiple tabs

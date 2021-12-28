@@ -1,9 +1,10 @@
 import React from "react"
-import { useTimerContext } from "../data/context"
+import { useSnapshot } from "valtio"
+import { startTimer, stopTimer } from "../data/actions"
 import { ElapsedTime } from "./ElapsedTime"
 
-export const TimerField = ({ record }) => {
-  const { timers, startTimer, stopTimer } = useTimerContext()
+export const TimerField = ({ state, record }) => {
+  const { timers } = useSnapshot(state)
   const timer = timers.filter(t => t.recordId === record.id)[0]
   const hasTimer = !!timer
 

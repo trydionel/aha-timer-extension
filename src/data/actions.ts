@@ -1,3 +1,4 @@
+import { state } from "./state";
 import { timestampToDuration } from "./util"
 
 const ahaFetch = (path: RequestInfo, options: RequestInit = {}) => {
@@ -13,6 +14,40 @@ const ahaFetch = (path: RequestInfo, options: RequestInit = {}) => {
     },
     ...rest
   });
+}
+
+export const loadTimers = async () => {
+  console.log('[Timer] Reloading timer data')
+
+  const fields = await aha.user.getExtensionFields('trydionel.timer')
+  const timers = fields.map(f => ({
+    recordId: f.name.replace('timer:', ''),
+    startedAt: f.value
+  }))
+
+  state.timers = timers
+}
+
+export const startTimer = async (record) => {
+  const now = new Date()
+
+  await aha.user.setExtensionField('trydionel.timer', `timer:${record.id}`, +now)
+
+  // Add new timer
+  state.timers.push({
+    recordId: record.id,
+    startedAt: now
+  })
+}
+
+export const stopTimer = async (record) => {
+  const timer = state.timers.filter(t => t.recordId === record.id)[0]
+
+  await aha.user.clearExtensionField('trydionel.timer', `timer:${record.id}`)
+  await logWork(record, timer.startedAt)
+
+  // Remove old timer
+  state.timers = state.timers.filter(t => t.recordId !== record.id)
 }
 
 export const logWork = async (record, startTime) => {

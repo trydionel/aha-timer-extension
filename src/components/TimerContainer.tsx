@@ -2,7 +2,7 @@
 import React from "react";
 import { css, jsx } from '@emotion/react'
 import { Timer } from "../components/Timer";
-import { useTimerContext } from "../data/context";
+import { useSnapshot } from "valtio";
 
 const HorizontalRow = ({ children }) => (
   <div css={css`
@@ -24,8 +24,8 @@ const HorizontalRow = ({ children }) => (
   </div>
 )
 
-export const TimerContainer = () => {
-  const { timers } = useTimerContext()
+export const TimerContainer = ({ state }) => {
+  const { timers } = useSnapshot(state)
 
   return (
     <HorizontalRow>

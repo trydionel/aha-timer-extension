@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
-    "@emotion/react": "^11.7.1"
+    "@emotion/react": "^11.7.1",
+    "valtio": "^1.2.7"
   }
 }
