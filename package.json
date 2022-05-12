@@ -1,11 +1,11 @@
 {
   "name": "trydionel.timer",
   "description": "Timer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "trydionel",
   "repository": {
     "type": "git",
-    "url": "TODO: Add the GitHub URL to your extension in package.json"
+    "url": "https://github.com/trydionel/aha-timer-extension.git"
   },
   "license": "MIT",
   "devDependencies": {
