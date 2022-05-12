@@ -17,12 +17,10 @@ const ahaFetch = (path: RequestInfo, options: RequestInit = {}) => {
 }
 
 export const loadTimers = async () => {
-  console.log('[Timer] Reloading timer data')
-
   const fields = await aha.user.getExtensionFields('trydionel.timer')
   const timers = fields.map(f => ({
     recordId: f.name.replace('timer:', ''),
-    startedAt: f.value
+    startedAt: new Date(f.value)
   }))
 
   state.timers = timers

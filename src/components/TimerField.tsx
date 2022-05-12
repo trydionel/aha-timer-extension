@@ -8,8 +8,6 @@ export const TimerField = ({ state, record }) => {
   const timer = timers.filter(t => t.recordId === record.id)[0]
   const hasTimer = !!timer
 
-  console.log('[Timer] Rendering timer field')
-
   return (
     <>
       {

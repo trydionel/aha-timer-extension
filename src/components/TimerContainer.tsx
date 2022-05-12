@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useEffect } from "react";
 import { css, jsx } from '@emotion/react'
 import { Timer } from "../components/Timer";
 import { useSnapshot } from "valtio";
+import { loadTimers } from "../data/actions";
 
 const HorizontalRow = ({ children }) => (
   <div css={css`
@@ -26,6 +27,14 @@ const HorizontalRow = ({ children }) => (
 
 export const TimerContainer = ({ state }) => {
   const { timers } = useSnapshot(state)
+
+  useEffect(() => {
+    loadTimers()
+
+    const pid = setInterval(loadTimers, 60 * 1000) // refresh timers regularly to support people using multiple tab
+    return () => clearInterval(pid)
+  }, [])
+
 
   return (
     <HorizontalRow>
