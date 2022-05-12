@@ -12,6 +12,12 @@ export const Timer = ({ record, startTime }) => {
     setData(data)
   }
 
+  const onStop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    stopTimer(data)
+  }
+
   useEffect(() => {
     loadRecord()
   }, []);
@@ -24,6 +30,7 @@ export const Timer = ({ record, startTime }) => {
     <div className="card card--unstyled" css={css`
       background-color: var(--theme-primary-background);
       box-shadow: var(--theme-shadow-deep);
+      pointer-events: all;
     `}>
       <div className="card__body-wrapper">
         <div className="card__body">
@@ -47,12 +54,16 @@ export const Timer = ({ record, startTime }) => {
           <div className="card__row">
             <div className="card__section">
               <div className="card__field">
-                <h4><ElapsedTime startTime={startTime} /></h4>
+                <h4 className="m-0">
+                  <ElapsedTime startTime={startTime} />
+                </h4>
               </div>
             </div>
             <div className="card__section">
               <div className="card__field">
-                <button onClick={e => stopTimer(data)}>Stop</button>
+                <aha-button size="small" onClick={onStop}>
+                  Stop
+                </aha-button>
               </div>
             </div>
           </div>
