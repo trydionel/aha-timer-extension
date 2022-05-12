@@ -19,8 +19,7 @@
           "entryPoint": "src/views/timer.js",
           "host": "attribute",
           "recordTypes": [
-            "Feature",
-            "Requirement"
+            "Feature"
           ]
         }
       }
