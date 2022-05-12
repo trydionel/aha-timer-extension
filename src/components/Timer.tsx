@@ -8,7 +8,7 @@ export const Timer = ({ record, startTime }) => {
   const [data, setData] = useState<Aha.Feature>(null)
 
   const loadRecord = async () => {
-    const data = await aha.models.Feature.select('id', 'name', 'referenceNum').find(record)
+    const data = await aha.models.Feature.select('id', 'name', 'referenceNum', 'path').find(record)
     setData(data)
   }
 
@@ -33,7 +33,7 @@ export const Timer = ({ record, startTime }) => {
       pointer-events: all;
     `}>
       <div className="card__body-wrapper">
-        <div className="card__body">
+        <div className="card__body" data-drawer-url={data.path}>
           <div className="card__row">
             <div className="card__section" css={css`
               flex-wrap: nowrap;
